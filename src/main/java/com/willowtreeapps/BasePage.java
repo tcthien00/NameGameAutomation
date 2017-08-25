@@ -11,23 +11,23 @@ import java.util.regex.Pattern;
 /**
  * Created on 5/23/17.
  */
-public class BasePageJ {
+public class BasePage {
 
     public WebDriver driver;
 
-    public BasePageJ(WebDriver driver) {
+    public BasePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public BasePageJ validateAttribute(String css, String attr, String regex) {
+    public BasePage validateAttribute(String css, String attr, String regex) {
         return validateAttribute(By.cssSelector(css), attr, regex);
     }
 
-    public BasePageJ validateAttribute(By by, String attr, String regex) {
+    public BasePage validateAttribute(By by, String attr, String regex) {
         return validateAttribute(driver.findElement(by), attr, regex);
     }
 
-    public BasePageJ validateAttribute(WebElement element, String attr, String regex) {
+    public BasePage validateAttribute(WebElement element, String attr, String regex) {
         String actual = null;
         try {
             actual = element.getAttribute(attr);
@@ -56,14 +56,14 @@ public class BasePageJ {
         return this;
     }
 
-    public BasePageJ validateText(String css, String text) {
+    public BasePage validateText(String css, String text) {
         return validateText(By.cssSelector(css), text);
     }
 
     /**
      * Validate Text ignores white spaces
      */
-    public BasePageJ validateText(By by, String text) {
+    public BasePage validateText(By by, String text) {
         Assertions.assertThat(text).isEqualToIgnoringWhitespace(getText(by));
         return this;
     }
@@ -77,15 +77,23 @@ public class BasePageJ {
                 : e.getText();
     }
 
-    public BasePageJ validatePresent(String css) {
+    public BasePage validatePresent(String css) {
         return validatePresent(By.cssSelector(css));
     }
 
-    public BasePageJ validatePresent(By by) {
+    public BasePage validatePresent(By by) {
         Assertions.assertThat(driver.findElements(by).size())
                 .withFailMessage("Element not present: [Element: %s]", by.toString())
                 .isGreaterThan(0);
         return this;
+    }
+
+    public void sleep(int timeInMillis) {
+        try {
+            Thread.sleep(timeInMillis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

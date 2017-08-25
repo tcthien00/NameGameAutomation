@@ -3,23 +3,25 @@ package com.willowtreeapps;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created on 5/23/17.
  */
-public class HomePageJ extends BasePageJ {
+public class HomePage extends BasePage {
 
 
-    public HomePageJ(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    public void validateTitle() {
-        Assert.assertTrue(By.cssSelector("h1") != null);
+    public void validateTitleIsPresent() {
+        WebElement title = driver.findElement(By.cssSelector("h1"));
+        Assert.assertTrue(title != null);
     }
 
 
-    public void validateClickOfPhoto() {
+    public void validateClickingFirstPhotoIncreasesTriesCounter() {
         //Wait for page to load
         sleep(6000);
 
@@ -33,13 +35,5 @@ public class HomePageJ extends BasePageJ {
 
         Assert.assertTrue(countAfter > count);
 
-    }
-
-    private void sleep(int timetosleep) {
-        try {
-            Thread.sleep(timetosleep);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

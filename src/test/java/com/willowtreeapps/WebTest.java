@@ -8,15 +8,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+public class WebTest {
 
+    private WebDriver driver;
 
-public class WebTestJ {
-
-    public WebDriver driver;
-
+    /**
+     * Change the prop if you are on Windows or Linux to the corresponding file type
+     * The chrome WebDrivers are included on the root of this project, to get the
+     * latest versions go to https://sites.google.com/a/chromium.org/chromedriver/downloads
+     */
     @Before
     public void setup() {
-        // Change the prop if you are on Windows or Linux to the corresponding file
         System.setProperty("webdriver.chrome.driver", "chromedriver.mac");
         Capabilities capabilities = DesiredCapabilities.chrome();
         driver = new ChromeDriver(capabilities);
@@ -24,15 +26,15 @@ public class WebTestJ {
     }
 
     @Test
-    public void test_validate_title() {
-        new HomePageJ(driver)
-                .validateTitle();
+    public void test_validate_title_is_present() {
+        new HomePage(driver)
+                .validateTitleIsPresent();
     }
 
     @Test
-    public void test_click_photo(){
-        new HomePageJ(driver)
-                .validateClickOfPhoto();
+    public void test_clicking_photo_increases_tries_counter() {
+        new HomePage(driver)
+                .validateClickingFirstPhotoIncreasesTriesCounter();
     }
 
     @After

@@ -10,3 +10,5 @@
 /target
 apps/
 /test_runs/
+out/
+
