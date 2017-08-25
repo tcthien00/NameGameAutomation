@@ -1,10 +1,9 @@
 # Name Game Test Automation
 
-## Tools
-- Java
-- Intellij
-- Selenium
-- Google Chrome Browser
+### Tools
+- [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Intellij Community Edition](https://www.jetbrains.com/idea/download/#section=mac)
+- [Google Chrome](https://www.google.com/chrome/browser/desktop/index.html)
 
 ### Importing
 - Clone/Download this project
