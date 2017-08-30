@@ -2,8 +2,12 @@
 
 ### Tools
 - [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- [Intellij Community Edition](https://www.jetbrains.com/idea/download/#section=mac)
+  - Setting up `JAVA_HOME` [tutorial link](http://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux)
+- Intellij Community Edition
+  - [macOS](https://www.jetbrains.com/idea/download/#section=mac)
+  - [Windows](https://www.jetbrains.com/idea/download/#section=windows)
 - [Google Chrome](https://www.google.com/chrome/browser/desktop/index.html)
+  - [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) - might need to download the latest drivers if the ones provided on the project get out of date.
 
 ### Importing
 - Clone/Download this project
