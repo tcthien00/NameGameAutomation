@@ -8,6 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+/*
+*Test cases are designed to run independently.  This mean each test case can be executed in random order.
+* This would help detecting more potential bugs that could exist.  The test suite should invoke those test cases randomly.
+ */
 public class WebTest {
 
     private WebDriver driver;
@@ -27,14 +31,37 @@ public class WebTest {
 
     @Test
     public void test_validate_title_is_present() {
-        new HomePage(driver)
-                .validateTitleIsPresent();
+        new HomePage(driver).validateTitleIsPresent();
     }
 
     @Test
     public void test_clicking_photo_increases_tries_counter() {
-        new HomePage(driver)
-                .validateClickingFirstPhotoIncreasesTriesCounter();
+        new HomePage(driver).validateClickingFirstPhotoIncreasesTriesCounter();
+    }
+
+    @Test
+    public void test_correct_selection_increases_streak_counter() {
+        new HomePage(driver).validateCorrectSelectionIncreasesStreakCounter();
+    }
+
+    @Test
+    public void validateIncorrectSelectionResetsMultiStreakCounter() {
+        new HomePage(driver).validateIncorrectSelectionResetsMultiStreakCounter();
+    }
+
+    @Test
+    public void validateTenRandomSelectionsIncreasesTriesCorrectsCounters() {
+        new HomePage(driver).validateTenRandomSelectionsIncreasesTriesCorrectsCounters();
+    }
+
+    @Test
+    public void verifyNamesPhotosChangedAfterCorrectSelection() {
+        new HomePage(driver).verifyNamesPhotosChangedAfterCorrectSelection();
+    }
+
+    @Test
+    public void verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections() {
+        new HomePage(driver).verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections();
     }
 
     @After
