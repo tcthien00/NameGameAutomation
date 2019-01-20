@@ -2,6 +2,7 @@ package com.willowtreeapps;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -59,6 +60,7 @@ public class WebTest {
         new HomePage(driver).verifyNamesPhotosChangedAfterCorrectSelection();
     }
 
+    @Ignore
     @Test
     public void verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections() {
         new HomePage(driver).verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections();

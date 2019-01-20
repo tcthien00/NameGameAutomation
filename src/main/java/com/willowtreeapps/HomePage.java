@@ -8,10 +8,6 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 
-
-
-import java.util.List;
-
 /**
  * Created on 5/23/17.
  */
@@ -20,6 +16,10 @@ public class HomePage extends BasePage {
     //delay default to 6000 ms using before each counter read.
     //best practice is to wait until all Photos are loaded:  Cannot do it in limited time.
     private final int DELAY = 6000;
+
+    private final String TRIES_COUNTER = "attempts";
+    private final String CORRECT_COUNTER = "correct";
+    private final String STREAK_COUNTER = "streak";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -42,11 +42,11 @@ public class HomePage extends BasePage {
 
 
     public void validateClickingFirstPhotoIncreasesTriesCounter() {
-        int count = readCounter("attempts");
+        int count = readCounter(TRIES_COUNTER);
 
         driver.findElement(By.className("photo")).click();
 
-        int countAfter = readCounter("attempts");
+        int countAfter = readCounter(TRIES_COUNTER);
 
         Assert.assertTrue(countAfter == count+1);
 
@@ -58,9 +58,9 @@ public class HomePage extends BasePage {
      * And the "streaks" counter should be increased (+1)
      */
     public void validateCorrectSelectionIncreasesStreakCounter() {
-        int tries = readCounter("attempts");
-        int corrects = readCounter("correct", 0);
-        int streaks = readCounter("streak", 0);
+        int tries = readCounter(TRIES_COUNTER);
+        int corrects = readCounter(CORRECT_COUNTER, 0);
+        int streaks = readCounter(STREAK_COUNTER, 0);
 
         //to obtain a random multi-streak counter (streaks > 1)
         int min = 1;
@@ -72,9 +72,9 @@ public class HomePage extends BasePage {
             imageSelection(true);
         }
         //validate multi-streak
-        Assert.assertTrue(readCounter("attempts") == tries+random);
-        Assert.assertTrue(readCounter("correct", 0) == corrects+random);
-        Assert.assertTrue(readCounter("streak", 0) == streaks+random);
+        Assert.assertTrue(readCounter(TRIES_COUNTER) == tries+random);
+        Assert.assertTrue(readCounter(CORRECT_COUNTER, 0) == corrects+random);
+        Assert.assertTrue(readCounter(STREAK_COUNTER, 0) == streaks+random);
 
     }
 
@@ -110,9 +110,9 @@ public class HomePage extends BasePage {
      */
     public void validateIncorrectSelectionResetsMultiStreakCounter() {
 
-        int tries = readCounter("attempts");
-        int corrects = readCounter("correct", 0);
-        int streaks = readCounter("streak", 0);
+        int tries = readCounter(TRIES_COUNTER);
+        int corrects = readCounter(CORRECT_COUNTER, 0);
+        int streaks = readCounter(STREAK_COUNTER, 0);
 
         //to obtain a random multi-streak counter (streaks > 1)
         int min = 1;
@@ -124,21 +124,23 @@ public class HomePage extends BasePage {
             sleep(DELAY);
         }
         //validate multi-streak
-        Assert.assertTrue(readCounter("attempts") == tries+random);
-        Assert.assertTrue(readCounter("correct", 0) == corrects+random);
-        Assert.assertTrue(readCounter("streak", 0) == streaks+random);
+        Assert.assertTrue(readCounter(TRIES_COUNTER) == tries+random);
+        Assert.assertTrue(readCounter(CORRECT_COUNTER, 0) == corrects+random);
+        Assert.assertTrue(readCounter(STREAK_COUNTER, 0) == streaks+random);
 
         //wrong selection to reset the streak counter
         imageSelection(false);
-        Assert.assertTrue(readCounter("attempts") == tries+random+1);
-        Assert.assertTrue(readCounter("correct", 0) == corrects+random);
-        Assert.assertTrue(readCounter("streak", 0) == 0);
+        Assert.assertTrue(readCounter(TRIES_COUNTER) == tries+random+1);
+        Assert.assertTrue(readCounter(CORRECT_COUNTER, 0) == corrects+random);
+        Assert.assertTrue(readCounter(STREAK_COUNTER, 0) == 0);
 
    }
 
     public void validateTenRandomSelectionsIncreasesTriesCorrectsCounters() {
-        int tries = readCounter("attempts");
-        int corrects = readCounter("correct", 0);
+        int tries = readCounter(TRIES_COUNTER);
+        int corrects = readCounter(CORRECT_COUNTER, 0);
+        //System.out.println("tries0="+tries);
+        //System.out.println("corrects0="+corrects);
 
         //to obtain a random multi-streak counter (streaks > 1)
         Random r = new Random();
@@ -147,12 +149,14 @@ public class HomePage extends BasePage {
             boolean randomSelection = r.nextBoolean();
             corrects += randomSelection? 1:0;
             tries++;
+            //System.out.println(i+"tries="+tries);
+            //System.out.println(i+"corrects="+corrects);
             sleep(DELAY);
             imageSelection(randomSelection);
         }
         //validate multi-streak
-        Assert.assertTrue(readCounter("attempts") == tries);
-        Assert.assertTrue(readCounter("correct", 0) == corrects);
+        Assert.assertTrue(readCounter(TRIES_COUNTER) == tries);
+        Assert.assertTrue(readCounter(CORRECT_COUNTER, 0) == corrects);
 
     }
 
@@ -160,7 +164,7 @@ public class HomePage extends BasePage {
     public void verifyNamesPhotosChangedAfterCorrectSelection() {
 
         //collect old names
-        int corrects = readCounter("correct");
+        int corrects = readCounter(CORRECT_COUNTER);
 
         List<WebElement> oldImageList = driver.findElements(By.className("photo"));
         //use name list because oldImageList is not accessible at the end.  TODO: photo check
@@ -173,7 +177,7 @@ public class HomePage extends BasePage {
         }
         //select the correct photo
         imageSelection(true);
-        Assert.assertTrue(readCounter("correct") == corrects+1);
+        Assert.assertTrue(readCounter(CORRECT_COUNTER) == corrects+1);
 
         //verify the new image list does not contain any image in the old list
         List<WebElement> newImageList = driver.findElements(By.className("photo"));
@@ -197,12 +201,12 @@ public class HomePage extends BasePage {
         //make wrong selection
         sleep(DELAY);
         String failSelection = imageSelection(false).findElement(By.className("name")).getText();
-        System.out.println("failSelection=" + failSelection);
+        //System.out.println("failSelection=" + failSelection);
 
         //make correct selection
         sleep(DELAY);
         String correctSelection = imageSelection(true).findElement(By.className("name")).getText();
-        System.out.println("correctSelection=" + correctSelection);
+        //System.out.println("correctSelection=" + correctSelection);
 
         sleep(DELAY);
         int failCount = 0;
@@ -212,7 +216,7 @@ public class HomePage extends BasePage {
             sleep(DELAY);
             newImageList = driver.findElements(By.className("photo"));
             for (WebElement newImage : newImageList) {
-                System.out.println("newName=" + newImage.findElement(By.className("name")).getText());
+                //System.out.println("newName=" + newImage.findElement(By.className("name")).getText());
 
                 failCount += (newImage.findElement(By.className("name")).getText() == failSelection)? 1:0;
                 correctCount += (newImage.findElement(By.className("name")).getText() == correctSelection)? 1:0;
