@@ -23,3 +23,5 @@
   - `test > java > com.willowtreeapps > WebTest`
   - Right click on any method tagged with `@Test`
   - Click on `Run 'test_...()`
+
+Note: java11 does not work with gradle on the latest IntelliJ IDE installation
