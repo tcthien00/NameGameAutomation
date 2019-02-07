@@ -1,4 +1,4 @@
 From java
 COPY . .
 RUN java -version
-CMD gradle test
+CMD gradle build
