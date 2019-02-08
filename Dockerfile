@@ -1,4 +1,3 @@
 From java
 COPY . .
-CMD gradle build
-CMD gradle test
+CMD gradle clean build
