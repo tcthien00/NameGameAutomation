@@ -81,7 +81,7 @@ public class HomePage extends BasePage {
         //to obtain a random multi-streak counter (streaks > 1)
         int min = 1, max = 10;
         int random = (int)(Math.random() * (max - min) + min);
-        System.out.println("To get streaks = " + random);
+//        System.out.println("To get streaks = " + random);
         for (int i=0; i<random; i++){
             imageSelection(true);
         }
@@ -95,13 +95,14 @@ public class HomePage extends BasePage {
     //to perform a correct or incorrect selection on an image in the list
     private String imageSelection(boolean correctSelection){
         waitUntilVisible(By.id("name"));//wait until the name to select appears
-        waitUntilClickable(By.id("gallery"));
-//        waitUntilClickable(By.className("photo"));
 
         String nameToSelect = driver.findElement(By.id("name")).getText();
 //        System.out.println("\n" + nameToSelect + " -> " + correctSelection);
 
         String clickedName = null;
+        waitUntilVisible(By.id("gallery"));
+        waitUntilClickable(By.id("gallery"));
+//        waitUntilClickable(By.className("photo"));
         //list of photos that are not wrongly selected
         List<WebElement> imageList = driver.findElements(By.className("photo"));
 //        System.out.println("----------");
@@ -186,19 +187,21 @@ public class HomePage extends BasePage {
         //collect old names
         int corrects = readCounter(CORRECT_COUNTER);
 
+        waitUntilClickable(By.id("gallery"));
         List<WebElement> oldImageList = driver.findElements(By.className("photo"));
         //use name list because oldImageList is not accessible at the end.  TODO: photo check
         List<String> oldNameList = new ArrayList();
-
         for (WebElement oldImage : oldImageList) {
             String oldName = oldImage.findElement(By.className("name")).getText();
             oldNameList.add(oldName);
             //System.out.println("\t\t\toldName=" + oldName);
         }
+
         //select the correct photo
         imageSelection(true);
         Assert.assertTrue(readCounter(CORRECT_COUNTER) == corrects+1);
 
+        waitUntilClickable(By.id("gallery"));
         //verify the new image list does not contain any image in the old list
         List<WebElement> newImageList = driver.findElements(By.className("photo"));
         for (WebElement newImage : newImageList) {
@@ -239,6 +242,10 @@ public class HomePage extends BasePage {
             newImageList.clear();
             driver.navigate().refresh();
         }
+        System.out.println();
+        System.out.println(failSelection + " appeared " + failCount);
+        System.out.println(correctSelection + " appeared " + correctCount);
+
         Assert.assertTrue("failCount("+failCount+ ") >? correctCount("+ correctCount+")",failCount > correctCount);
     }
 }

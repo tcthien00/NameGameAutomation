@@ -32,37 +32,44 @@ public class WebTest {
 
     @Test
     public void test_validate_title_is_present() {
+        System.out.println(methodName());
         new HomePage(driver).validateTitleIsPresent();
     }
 
     @Test
     public void test_clicking_photo_increases_tries_counter() {
+        System.out.println(methodName());
         new HomePage(driver).validateClickingFirstPhotoIncreasesTriesCounter();
     }
 
     @Test
     public void test_correct_selection_increases_streak_counter() {
+        System.out.println(methodName());
         new HomePage(driver).validateCorrectSelectionIncreasesStreakCounter();
     }
 
     @Test
     public void validateIncorrectSelectionResetsMultiStreakCounter() {
+        System.out.println(methodName());
         new HomePage(driver).validateIncorrectSelectionResetsMultiStreakCounter();
     }
 
     @Test
     public void validateTenRandomSelectionsIncreasesTriesCorrectsCounters() {
+        System.out.println(methodName());
         new HomePage(driver).validateTenRandomSelectionsIncreasesTriesCorrectsCounters();
     }
 
     @Test
     public void verifyNamesPhotosChangedAfterCorrectSelection() {
+        System.out.println(methodName());
         new HomePage(driver).verifyNamesPhotosChangedAfterCorrectSelection();
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections() {
+        System.out.println(methodName());
         new HomePage(driver).verifyFailSelectionAppearMoreFrequentlyThanCorrectSelections();
     }
 
@@ -72,4 +79,7 @@ public class WebTest {
         System.clearProperty("webdriver.chrome.driver");
     }
 
+    public static String methodName() {
+        return Thread.currentThread().getStackTrace()[2].getMethodName();
+    }
 }
