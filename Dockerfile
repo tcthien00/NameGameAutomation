@@ -1,4 +1,4 @@
 From java
 COPY . .
 CMD gradle build
-RUN gradle test
+CMD gradle test
